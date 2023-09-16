@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% block body %}
+{% if books %}
+<div class="row row-cols-1 row-cols-md-4 g-4 mt-5">
+  {% for book in books %}
+  <div class="col">
+    <div class="card">
+      <img src="{{ book.item.image.url }}" class="card-img-top" alt="{{ book.title }}" />
+      <div class="card-body">
+        <h5 class="card-title">{{ book.item.title }}</h5>
+        <p class="card-text">Author: {{ book.item.author }}<br>ISBN: {{ book.item.isbn }}<br>Genre: {{ book.item.genre }}<br>Date Published: {{ book.item.publication_date.date }}</p>
+        <p class="card-text">Borrowed: {{ book.borrow_date.date }}<br> Return Date: {{ book.return_date.date }}</p>
+        <div>
+          <a href="{% url 'return_book' book.item.id %}" type="button" class="btn btn-primary btn-sm">Return Book</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<h4 class="mt-5">You don't have any book in your borrowlist, Borrow book from here <a href="{% url 'home' %}">Home Page</a></h4>
+{% endif %}
+{% endblock body %}

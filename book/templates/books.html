@@ -1,0 +1,26 @@
+{% extends 'base.html' %} 
+{% block body %}
+{% if books %}
+<div class="row row-cols-1 row-cols-md-4 g-4 mt-5">
+  {% for book in books %}
+  <div class="col">
+    <div class="card">
+      <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}" />
+      <div class="card-body">
+        <h5 class="card-title">{{ book.title }}</h5>
+        <p class="card-text">Author: {{ book.author }}<br>ISBN: {{ book.isbn }}<br>Genre: {{ book.genre }}<br>Quantity: {{ book.book_no }}<br>Date Published: {{ book.publication_date.date }}</p>
+        {% if request.user.is_authenticated %}
+        <div>
+          <a href="{% url 'add_wishlist' book.id %}" type="button" class="btn btn-primary btn-sm">Add Wishlist</a>
+          <a href="{% url 'add_borrowlist' book.id %}" type="button" class="btn btn-primary btn-sm">Request Borrow</a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<h4 class="mt-5">Don't find anything what you have search, please try again or go to <a href="{% url 'home' %}">Home Page</a></h4>
+{% endif %}
+{% endblock body %}
